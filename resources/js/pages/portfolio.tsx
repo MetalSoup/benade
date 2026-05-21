@@ -10,19 +10,22 @@ import {
     PhoneIcon,
     WrenchIcon,
 } from '@phosphor-icons/react';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
-import LightGallery from 'lightgallery/react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Lightbox from 'yet-another-react-lightbox';
+import Captions from 'yet-another-react-lightbox/plugins/captions';
+import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import ContactForm from '@/components/ContactForm';
 import LightRays from '@/components/LightRays';
 import Galaxy from '@/components/ui/Galaxy';
 import Navbar from '@/components/ui/navbar';
-import { useAppearance } from '@/hooks/use-appearance';
+import { useInView } from '@/hooks/use-in-view';
 import cashbag_1 from '../assets/cashbag_1.webp';
 import cashbag_2 from '../assets/cashbag_2.png';
 import cashbag_3 from '../assets/cashbag_3.png';
 import cashbag_home from '../assets/cashbag_home.webp';
+import featuredBG from '../assets/connectwork.webp';
 import coreg_1 from '../assets/coreg_1.png';
 import coreg_2 from '../assets/coreg_2.png';
 import coreg_3 from '../assets/coreg_3.png';
@@ -39,18 +42,20 @@ import flow_4 from '../assets/flow_4.png';
 import flow_5 from '../assets/flow_5.png';
 import flow_6 from '../assets/flow_6.png';
 import backgroundImage2 from '../assets/photo-1567095761054-7a02e69e5c43.avif';
+import coreg_example_1 from '../assets/screenshots/image001.webp';
+import coreg_example_2 from '../assets/screenshots/image002.webp';
+import coreg_example_3 from '../assets/screenshots/image003.webp';
+import coreg_example_4 from '../assets/screenshots/image004.webp';
+import coreg_example_7 from '../assets/screenshots/image007.webp';
+import coreg_example_8 from '../assets/screenshots/image008.webp';
+import coreg_example_9 from '../assets/screenshots/image009.webp';
+import coreg_example_10 from '../assets/screenshots/image010.webp';
 import uapply_1 from '../assets/uapply_1.webp';
-
-
-
-
-
-// import backgroundImage from '../assets/photo-1484589065579-248aad0d8b13.avif';
-// import backgroundImage1 from '../assets/photo-1541701494587-cb58502866ab.avif';
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-thumbnail.css';
-import 'lightgallery/css/lg-zoom.css';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
 import 'swiper/css';
+
 
 type FeaturedProjectImage = {
     key: string;
@@ -67,7 +72,7 @@ type FeaturedProject = {
 };
 
 const impactStats = [
-    { label: 'Current role', value: 'Lead Developer' },
+    { label: 'Latest role', value: 'Lead Web Developer' },
     { label: 'Primary stack', value: 'PHP + Laravel + React' },
     { label: 'Location', value: 'Pretoria, South Africa' },
 ];
@@ -110,7 +115,7 @@ const capabilities = [
 
 const featuredProjects: FeaturedProject[] = [
     {
-        title: 'FlowWeaver (WIP)',
+        title: 'LeadWeaver (WIP)',
         summary:
             'A more advanced Co-registration platform for creating intricate web forms with advanced conditional logic.',
         stack: 'PHP, Laravel, React, TypeScript, Inertia, API/Webhooks',
@@ -118,37 +123,37 @@ const featuredProjects: FeaturedProject[] = [
             'Designed to enable complex user journeys and real-time data handling for improved lead capture and routing.',
         images: [
             {
-                key: 'home',
+                key: 'flow_1',
                 src: flow_1,
                 description:
                     'Allows multiple steps to be shown sequentially, with conditional logic to determine which steps and questions to show based on user input.',
             },
             {
-                key: 'step1',
+                key: 'flow_2',
                 src: flow_2,
                 description:
                     'Uses webhooks to send data to external systems in real-time, with the ability to use results for further conditional logic.',
             },
             {
-                key: 'step2',
+                key: 'flow_3',
                 src: flow_3,
                 description:
                     'Use comparison operators, and branches to determine the user path.',
             },
             {
-                key: 'step3',
+                key: 'flow_4',
                 src: flow_4,
                 description:
                     'A built in page editor can preview the form, with the ability to add custom HTML and CSS where needed.',
             },
             {
-                key: 'step4',
+                key: 'flow_5',
                 src: flow_5,
                 description:
                     'Pre-defined default fields as well as the ability to add more fields with multiple types and options.',
             },
             {
-                key: 'step5',
+                key: 'flow_6',
                 src: flow_6,
                 description:
                     'Freedom to customize fields with multiple answers and more advanced settings',
@@ -164,48 +169,48 @@ const featuredProjects: FeaturedProject[] = [
             'Enabled faster lead routing and easier campaign operations across multiple channels.',
         images: [
             {
-                key: 'home',
+                key: 'coreg',
                 src: coreg,
                 description:
                     'Coreg.Software landing page introducing the platform and its lead-capture workflow.',
             },
             {
-                key: 'step1',
+                key: 'coreg_1',
                 src: coreg_1,
                 description:
                     'Dashboard showing a summary of important information.',
             },
             {
-                key: 'step2',
+                key: 'coreg_2',
                 src: coreg_2,
                 description: 'Users can create their own pages.',
             },
             {
-                key: 'step3',
+                key: 'coreg_3',
                 src: coreg_3,
                 description:
                     'The path is where the user creates steps and adds questions or other items to the form. This is also where actions and conditional logic can be added for the forms.',
             },
             {
-                key: 'step4',
+                key: 'coreg_4',
                 src: coreg_4,
                 description:
                     'Different question types can be created with the ability to add and re-order options where applicable.',
             },
             {
-                key: 'step5',
+                key: 'coreg_5',
                 src: coreg_5,
                 description:
                     'Conditional statements determine the flow of the user through the path, hiding and showing questions based on user input.',
             },
             {
-                key: 'step6',
+                key: 'coreg_6',
                 src: coreg_6,
                 description:
                     'Actions allow users to select what happens with user data after submission. It can send emails, forward details to an API or external lead management systems. It also supports its own conditions to decide if the action should run.',
             },
             {
-                key: 'step7',
+                key: 'coreg_7',
                 src: coreg_7,
                 description:
                     'Every action that gets performed is saved with the result of that action, so that activity can be monitored and issues can be troubleshooted.',
@@ -221,25 +226,25 @@ const featuredProjects: FeaturedProject[] = [
             'Improved engagement through automated rewards and partner-network integrations.',
         images: [
             {
-                key: 'home',
+                key: 'cashbag_home',
                 src: cashbag_home,
                 description:
                     'CashBag home screen introducing cashback offers and the user value proposition.',
             },
             {
-                key: 'step1',
+                key: 'cashbag_1',
                 src: cashbag_1,
                 description:
                     'Offer listing view where users can browse partner promotions and cashback options.',
             },
             {
-                key: 'step2',
+                key: 'cashbag_2',
                 src: cashbag_2,
                 description:
                     'Transaction flow showing how user activity is converted into cashback rewards.',
             },
             {
-                key: 'step3',
+                key: 'cashbag_3',
                 src: cashbag_3,
                 description:
                     'Member account area for checking reward status and cashback progress.',
@@ -255,28 +260,49 @@ const featuredProjects: FeaturedProject[] = [
             'Provided better campaign tracking and improved user experience for various application processes.',
         images: [
             {
-                key: 'home',
+                key: 'coreg_example_1',
+                src: coreg_example_1,
+                description: '',
+            },
+            {
+                key: 'uapply_1',
                 src: uapply_1,
-                description:
-                    'uApply lets users apply for Finance related quotes. The leads are sent to multiple financial lead buyers.',
+                description: '',
             },
             {
-                key: 'step1',
-                src: cashbag_1,
-                description:
-                    'Application capture screen collecting user details for the submission workflow.',
+                key: 'coreg_example_4',
+                src: coreg_example_4,
+                description: '',
             },
             {
-                key: 'step2',
-                src: cashbag_2,
-                description:
-                    'Tracking interface for monitoring activity, link performance, or submission progress.',
+                key: 'coreg_example_7',
+                src: coreg_example_7,
+                description: '',
             },
             {
-                key: 'step3',
-                src: cashbag_3,
-                description:
-                    'Management view summarizing campaign insight and application funnel activity.',
+                key: 'coreg_example_8',
+                src: coreg_example_8,
+                description: '',
+            },
+            {
+                key: 'coreg_example_9',
+                src: coreg_example_9,
+                description: '',
+            },
+            {
+                key: 'coreg_example_10',
+                src: coreg_example_10,
+                description: '',
+            },
+            {
+                key: 'coreg_example_2',
+                src: coreg_example_2,
+                description: '',
+            },
+            {
+                key: 'coreg_example_3',
+                src: coreg_example_3,
+                description: '',
             },
         ],
     },
@@ -324,34 +350,22 @@ const strengths = [
     'Graphic design tools: Photoshop, Illustrator, Blender',
 ];
 
-const escapeHtml = (value: string) =>
-    value
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-
-const buildGalleryCaption = (
-    project: FeaturedProject,
-    image: FeaturedProjectImage,
-    index: number,
-) =>
-    `<div><h4>${escapeHtml(project.title)}</h4><p>${escapeHtml(image.description ?? project.summary)}</p><p>Image ${index + 1} of ${project.images.length}</p></div>`;
-
 export default function Portfolio() {
-    const { appearance, updateAppearance } = useAppearance();
+    const { ref: capabilitiesRef, inView: capabilitiesInView } = useInView();
+    const { ref: experienceRef, inView: experienceInView } = useInView();
+    const { ref: workRef, inView: workInView } = useInView();
+    const { ref: skillsRef, inView: skillsInView } = useInView();
+    const { ref: contactRef, inView: contactInView } = useInView();
+    const [lightbox, setLightbox] = useState<{ projectIdx: number; slideIdx: number } | null>(null);
 
     return (
         <>
             <Head title="Eugene Benade | Portfolio" />
 
             <div className={'mx-auto max-w-full bg-cover bg-center'}>
-                <Navbar
-                    appearance={appearance}
-                    updateAppearance={updateAppearance}
-                ></Navbar>
+                <Navbar />
                 <section
+                    id="home"
                     className="hero relative overflow-hidden border-b-2 border-amber-500 bg-linear-to-br from-background via-background to-[#F6911E]/10 p-8 shadow-lg shadow-amber-500/40 md:p-30"
                     style={{
                         backgroundImage: `url(${backgroundImage2})`,
@@ -380,6 +394,7 @@ export default function Portfolio() {
                                     src={eugene}
                                     alt="Eugene Benade"
                                     className="w-full"
+                                    loading="eager"
                                 />
                             </div>
 
@@ -446,7 +461,7 @@ export default function Portfolio() {
                         </div>
                     </div>
                 </section>
-                <section className="relative flex flex-col gap-20 space-y-6 bg-stone-100 p-8 md:p-30 dark:bg-stone-900">
+                <section id="experience" className="relative flex flex-col gap-20 space-y-6 bg-stone-100 p-8 md:p-30 dark:bg-stone-900 scroll-mt-16">
                     <div
                         style={{
                             height: '100%',
@@ -474,7 +489,10 @@ export default function Portfolio() {
                             saturation={3}
                         />
                     </div>
-                    <div className="relative mx-auto max-w-6xl space-y-6">
+                    <div
+                        ref={capabilitiesRef}
+                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${capabilitiesInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
                         <h2 className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-amber-500">
                             <CodeIcon size={30} weight="duotone" aria-hidden />
                             <span>Development focus</span>
@@ -484,7 +502,7 @@ export default function Portfolio() {
                             {capabilities.map((capability) => (
                                 <article
                                     key={capability.title}
-                                    className="rounded-2xl border-2 border-amber-500 bg-stone-100/80 p-6 shadow-lg shadow-amber-500/40 blur-in-lg dark:bg-stone-800/80"
+                                    className="rounded-2xl border-2 border-amber-500  p-6 shadow-md shadow-stone-950/80 blur-in-lg bg-stone-800/80"
                                 >
                                     <h3 className="text-lg font-semibold">
                                         {capability.title}
@@ -501,7 +519,10 @@ export default function Portfolio() {
                             ))}
                         </div>
                     </div>
-                    <div className="relative mx-auto max-w-6xl space-y-6">
+                    <div
+                        ref={experienceRef}
+                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${experienceInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
                         <h2 className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-amber-500">
                             <BriefcaseIcon
                                 size={30}
@@ -527,7 +548,7 @@ export default function Portfolio() {
                                         {role.company}
                                     </p>
 
-                                    <ul className="mt-4 space-y-2 text-sm leading-6 list-disc pl-5">
+                                    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6">
                                         {role.highlights.map((point) => (
                                             <li key={point}>{point}</li>
                                         ))}
@@ -537,18 +558,44 @@ export default function Portfolio() {
                         </div>
                     </div>
                 </section>
-                <section className="space-y-6 bg-stone-100 p-8 md:p-30 dark:bg-stone-800">
-                    <div className="relative mx-auto max-w-6xl space-y-6">
+                <section
+                    id="work"
+                    className="features-section relative space-y-6 bg-stone-800 p-8 md:p-30 scroll-mt-16"
+                    style={{
+                        backgroundImage: `url(${featuredBG})`,
+                        backgroundAttachment: 'fixed',
+                    }}
+                >
+                    <div
+                        className="bg-stone-800/80"
+                        style={{
+                            height: '100%',
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            zIndex: '0',
+                        }}
+                    ></div>
+                    <div
+                        ref={workRef}
+                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${workInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
                         <h2 className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-amber-500">
-                            <ImagesIcon size={30} weight="duotone" aria-hidden />
+                            <ImagesIcon
+                                size={30}
+                                weight="duotone"
+                                aria-hidden
+                            />
                             <span>Featured work</span>
                         </h2>
 
                         <div>
-                            {featuredProjects.map((project) => (
+                            {featuredProjects.map((project, pIdx) => (
                                 <div
                                     key={project.title}
-                                    className="margin-bottom-12 mb-10 space-y-4 rounded-2xl bg-stone-600 p-5"
+                                    className="margin-bottom-12 mb-10 space-y-4 rounded-2xl bg-stone-600/80 p-5 backdrop-blur-sm featured"
                                 >
                                     <h3 className="text-2xl font-semibold text-amber-500">
                                         {project.title}
@@ -556,54 +603,58 @@ export default function Portfolio() {
                                     <p className="mt-2 mb-5">
                                         {project.summary}
                                     </p>
-                                    <LightGallery
-                                        plugins={[lgZoom, lgThumbnail]}
-                                        selector={`.featured-gallery-item-${project.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}
-                                        download={false}
+                                    <Swiper
+                                        spaceBetween={20}
+                                        slidesPerView={1}
+                                        loop={true}
+                                        breakpoints={{
+                                            640: { slidesPerView: 1 },
+                                            1024: { slidesPerView: 2 },
+                                            1280: { slidesPerView: 3 },
+                                        }}
                                     >
-                                        <Swiper spaceBetween={50} slidesPerView={3}>
-                                            {project.images.map(
-                                                (
-                                                    { key, src, description },
-                                                    index,
-                                                ) => (
-                                                    <SwiperSlide
-                                                        key={`${project.title}-${key}`}
-                                                        className="featured-gallery-slide"
-                                                    >
-                                                        <div className="flex flex-col gap-2">
-                                                            <a
-                                                                href={src}
-                                                                className={`featured-gallery-item-${project.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()} block w-full cursor-pointer overflow-hidden rounded-xl h-40`}
-                                                                data-src={src}
-                                                                data-sub-html={buildGalleryCaption(
-                                                                    project,
-                                                                    {
-                                                                        key,
-                                                                        src,
-                                                                        description,
-                                                                    },
-                                                                    index,
-                                                                )}
-                                                                aria-label={`Open ${project.title} image ${index + 1} in gallery`}
-                                                            >
-                                                                <img
-                                                                    src={src}
-                                                                    alt={`${project.title} - ${key} (${index + 1})`}
-                                                                    className="h-auto w-full"
-                                                                />
-                                                            </a>
-                                                            {(description ?? project.summary) && (
-                                                                <p className="text-xs leading-5 text-stone-300">
-                                                                    {description ?? project.summary}
-                                                                </p>
-                                                            )}
-                                                        </div>
-                                                    </SwiperSlide>
-                                                ),
-                                            )}
-                                        </Swiper>
-                                    </LightGallery>
+                                        {project.images.map(
+                                            (
+                                                { key, src, description },
+                                                index,
+                                            ) => (
+                                                <SwiperSlide
+                                                    key={`${project.title}-${key}`}
+                                                    className="featured-gallery-slide"
+                                                >
+                                                    <div className="flex flex-col gap-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                setLightbox({
+                                                                    projectIdx:
+                                                                        pIdx,
+                                                                    slideIdx:
+                                                                        index,
+                                                                })
+                                                            }
+                                                            className="block h-40 w-full cursor-pointer overflow-hidden rounded-xl"
+                                                            aria-label={`Open ${project.title} image ${index + 1} in gallery`}
+                                                        >
+                                                            <img
+                                                                src={src}
+                                                                alt={`${project.title} - ${key} (${index + 1})`}
+                                                                className="h-auto w-full"
+                                                                loading="lazy"
+                                                            />
+                                                        </button>
+                                                        {(description ??
+                                                            project.summary) && (
+                                                            <p className="text-xs leading-5 text-stone-300">
+                                                                {description ??
+                                                                    project.summary}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </SwiperSlide>
+                                            ),
+                                        )}
+                                    </Swiper>
 
                                     <p className="mt-4 font-medium">
                                         {project.stack}
@@ -617,7 +668,7 @@ export default function Portfolio() {
                         </div>
                     </div>
                 </section>
-                <section className="relative space-y-4 p-8 md:p-30">
+                <section id="skills" className="relative space-y-4 bg-black p-8 md:p-30 scroll-mt-16">
                     <div
                         style={{
                             height: '100%',
@@ -644,9 +695,16 @@ export default function Portfolio() {
                             speed={1}
                         />
                     </div>
-                    <div className="relative mx-auto max-w-6xl space-y-6">
+                    <div
+                        ref={skillsRef}
+                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${skillsInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
                         <h2 className="flex items-center gap-3 text-3xl font-semibold tracking-tight text-amber-500">
-                            <WrenchIcon size={30} weight="duotone" aria-hidden />
+                            <WrenchIcon
+                                size={30}
+                                weight="duotone"
+                                aria-hidden
+                            />
                             <span>Skills</span>
                         </h2>
 
@@ -662,8 +720,11 @@ export default function Portfolio() {
                         </ul>
                     </div>
                 </section>
-                <section className="border-t-2 border-amber-500 bg-stone-900 p-8">
-                    <div className="relative mx-auto max-w-6xl space-y-6">
+                <section id="contact" className="border-t-2 border-amber-500 bg-stone-900 p-8 scroll-mt-16">
+                    <div
+                        ref={contactRef}
+                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${contactInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
                         <h2 className="flex items-center gap-3 text-3xl font-semibold text-amber-500">
                             <PaperPlaneTiltIcon
                                 size={30}
@@ -683,6 +744,29 @@ export default function Portfolio() {
                     </div>
                 </section>
             </div>
+
+            <Lightbox
+                open={lightbox !== null}
+                close={() => setLightbox(null)}
+                index={lightbox?.slideIdx ?? 0}
+                slides={
+                    lightbox !== null
+                        ? featuredProjects[lightbox.projectIdx].images.map(
+                              ({ src, description, key }) => ({
+                                  src,
+                                  title: featuredProjects[lightbox.projectIdx]
+                                      .title,
+                                  description:
+                                      description ??
+                                      featuredProjects[lightbox.projectIdx]
+                                          .summary,
+                                  alt: key,
+                              }),
+                          )
+                        : []
+                }
+                plugins={[Zoom, Thumbnails, Captions]}
+            />
         </>
     );
 }

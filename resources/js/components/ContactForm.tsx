@@ -1,5 +1,6 @@
-import { type FormEvent, useState } from 'react';
 import { EnvelopeSimpleIcon, PhoneIcon, UserIcon } from '@phosphor-icons/react';
+import {  useState } from 'react';
+import type {FormEvent} from 'react';
 
 interface ContactFormProps {
     onSuccess?: () => void;
