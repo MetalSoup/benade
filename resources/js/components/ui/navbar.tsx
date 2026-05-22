@@ -7,7 +7,6 @@ const navigation = [
     { name: 'Experience', href: '#experience', id: 'experience' },
     { name: 'Work', href: '#work', id: 'work' },
     { name: 'Skills', href: '#skills', id: 'skills' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
 ]
 
 function classNames(...classes: string[]) {
