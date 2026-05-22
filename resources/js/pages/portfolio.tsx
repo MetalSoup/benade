@@ -6,7 +6,6 @@ import {
     GlobeSimpleIcon,
     ImagesIcon,
     MapPinIcon,
-    PaperPlaneTiltIcon,
     PhoneIcon,
     WrenchIcon,
 } from '@phosphor-icons/react';
@@ -16,7 +15,6 @@ import Lightbox from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import ContactForm from '@/components/ContactForm';
 import LightRays from '@/components/LightRays';
 import Galaxy from '@/components/ui/Galaxy';
 import Navbar from '@/components/ui/navbar';
@@ -355,12 +353,19 @@ export default function Portfolio() {
     const { ref: experienceRef, inView: experienceInView } = useInView();
     const { ref: workRef, inView: workInView } = useInView();
     const { ref: skillsRef, inView: skillsInView } = useInView();
-    const { ref: contactRef, inView: contactInView } = useInView();
     const [lightbox, setLightbox] = useState<{ projectIdx: number; slideIdx: number } | null>(null);
 
     return (
         <>
-            <Head title="Eugene Benade | Portfolio" />
+            <Head title="Eugene Benade | Full Stack Web Developer">
+                <meta name="description" content="Eugene Benade is a Full Stack Web Developer based in Pretoria, South Africa, specialising in Laravel, PHP, React, and TypeScript." />
+                <meta name="keywords" content="Eugene Benade, full stack developer, Laravel developer, PHP developer, React developer, TypeScript, web development, Pretoria, South Africa" />
+                <meta name="author" content="Eugene Benade" />
+                <meta property="og:title" content="Eugene Benade | Full Stack Web Developer" />
+                <meta property="og:description" content="Full Stack Developer delivering robust PHP and Laravel platforms with modern React frontends. Based in Pretoria, South Africa." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://benade.dev" />
+            </Head>
 
             <div className={'mx-auto max-w-full bg-cover bg-center'}>
                 <Navbar />
@@ -418,11 +423,11 @@ export default function Portfolio() {
                                 </li>
                                 <li className="flex flex-row items-center gap-2 text-sm">
                                     <EnvelopeSimpleIcon size={25} />
-                                    benade@gmail.com
+                                    eugene@benade.dev
                                 </li>
                                 <li className="flex flex-row items-center gap-2 text-sm">
                                     <GlobeSimpleIcon size={25} />
-                                    https://benade.net
+                                    https://benade.dev
                                 </li>
                             </ul>
                         </div>
@@ -720,29 +725,33 @@ export default function Portfolio() {
                         </ul>
                     </div>
                 </section>
-                <section id="contact" className="border-t-2 border-amber-500 bg-stone-900 p-8 scroll-mt-16">
-                    <div
-                        ref={contactRef}
-                        className={`relative mx-auto max-w-6xl space-y-6 transition-all duration-700 ${contactInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    >
-                        <h2 className="flex items-center gap-3 text-3xl font-semibold text-amber-500">
-                            <PaperPlaneTiltIcon
-                                size={30}
-                                weight="duotone"
-                                aria-hidden
-                            />
-                            <span>Contact Me</span>
-                        </h2>
-                        <p className="mt-2 text-sm text-muted-foreground">
-                            I'm always open to new opportunities, so feel free
-                            to reach out.
-                        </p>
-
-                        <div className="mt-8">
-                            <ContactForm />
+                <footer id="contact" className="border-t-2 border-amber-500 bg-stone-900 px-8 py-10 scroll-mt-16">
+                    <div className="mx-auto max-w-6xl flex flex-col gap-6 sm:flex-row sm:items-top sm:justify-between">
+                        <div>
+                            <p className="font-ubuntu text-lg font-bold text-amber-500">Eugene Benade</p>
+                            <p className="text-sm text-stone-400">Full Stack Web Developer</p>
                         </div>
+                        <ul className="flex flex-col gap-3 text-sm text-stone-300">
+                            <li className="flex items-center gap-2">
+                                <MapPinIcon size={18} aria-hidden />
+                                Pretoria, South Africa
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <PhoneIcon size={18} aria-hidden />
+                                <a href="tel:+27829921317" className="hover:text-amber-400 transition-colors">+27 82 992 1317</a>
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <EnvelopeSimpleIcon size={18} aria-hidden />
+                                <a href="mailto:eugene@benade.dev" className="hover:text-amber-400 transition-colors">eugene@benade.dev</a>
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <GlobeSimpleIcon size={18} aria-hidden />
+                                <a href="https://benade.dev" className="hover:text-amber-400 transition-colors">benade.dev</a>
+                            </li>
+                        </ul>
+                        <p className="text-xs text-stone-500">&copy; {new Date().getFullYear()} Eugene Benade</p>
                     </div>
-                </section>
+                </footer>
             </div>
 
             <Lightbox

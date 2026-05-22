@@ -3,7 +3,19 @@
     "allow": [
       "Bash(xargs grep:*)",
       "Bash(npm uninstall:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(magick --version)",
+      "Bash(convert --version)",
+      "Bash(node -e \"const sharp = require\\('sharp'\\); console.log\\('sharp ok'\\)\")",
+      "Bash(python -c \"from PIL import Image; print\\('PIL ok'\\)\")",
+      "Bash(python3 -c \"from PIL import Image; print\\('PIL ok'\\)\")",
+      "Bash(where ffmpeg:*)",
+      "Bash(where cwebp:*)",
+      "Bash(where dwebp:*)",
+      "Bash(npm list:*)",
+      "Bash(npx --yes sharp-cli --version)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(node -e ':*)"
     ]
   }
 }

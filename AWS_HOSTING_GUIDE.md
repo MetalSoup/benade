@@ -108,11 +108,14 @@ sudo apt-get install -y nodejs
 sudo mkdir -p /var/www/benade
 cd /var/www/benade
 
-# Clone or upload your project (example with git)
-sudo git clone https://github.com/your-username/benade.git .
+# Give your ubuntu user ownership first, then clone without sudo
+sudo chown -R ubuntu:ubuntu /var/www/benade
 
-# Set permissions
-sudo chown -R www-data:www-data /var/www/benade
+# Clone into the current directory (the trailing . is required)
+git clone git@github.com:MetalSoup/benade.git .
+
+# Hand ownership to www-data for nginx/php-fpm, but keep ubuntu as group for deploys
+sudo chown -R ubuntu:www-data /var/www/benade
 sudo chmod -R 775 storage bootstrap/cache
 
 # Install PHP dependencies (production only, no dev packages)
