@@ -388,13 +388,9 @@ export default function Portfolio() {
                     />
                     <div className="absolute -bottom-12 left-8 h-32 w-32 rounded-full bg-amber-500/15 blur-3xl" />
 
-                    <div className="relative mx-auto flex max-w-6xl flex-row items-start justify-between gap-8 space-y-6 md:gap-20">
-                        <div className="flex w-1/4 flex-col items-center gap-8 md:gap-10">
-                            <div
-                                className={
-                                    'photo-container border-2 border-amber-500'
-                                }
-                            >
+                    <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-8 md:flex-row md:justify-between md:gap-20">
+                        <div className="flex w-full flex-row items-start gap-6 md:w-1/4 md:flex-col md:items-center md:gap-10">
+                            <div className="photo-container w-20 border-2 border-amber-500 sm:w-28 md:w-full">
                                 <img
                                     src={eugene}
                                     alt="Eugene Benade"
@@ -403,33 +399,34 @@ export default function Portfolio() {
                                 />
                             </div>
 
-                            <div className="font-ubuntu w-full text-amber-500">
-                                <h2 className={'text-3xl font-bold'}>
-                                    Eugene Benade
-                                </h2>
-
-                                <span className={'text-xl'}>
-                                    Full Stack Web Developer
-                                </span>
+                            <div className="flex w-full flex-col items-start gap-3 md:gap-8">
+                                <div className="font-ubuntu text-amber-500">
+                                    <h2 className={'text-2xl font-bold md:text-3xl'}>
+                                        Eugene Benade
+                                    </h2>
+                                    <span className={'text-base md:text-xl'}>
+                                        Full Stack Web Developer
+                                    </span>
+                                </div>
+                                <ul className={'flex flex-col gap-2 md:gap-3'}>
+                                    <li className="flex flex-row items-center gap-2 text-sm">
+                                        <MapPinIcon size={18} className="shrink-0" />
+                                        Pretoria, South Africa
+                                    </li>
+                                    <li className="flex flex-row items-center gap-2 text-sm">
+                                        <PhoneIcon size={18} className="shrink-0" />
+                                        +27 82 992 1317
+                                    </li>
+                                    <li className="flex flex-row items-center gap-2 text-sm">
+                                        <EnvelopeSimpleIcon size={18} className="shrink-0" />
+                                        eugene@benade.dev
+                                    </li>
+                                    <li className="flex flex-row items-center gap-2 text-sm">
+                                        <GlobeSimpleIcon size={18} className="shrink-0" />
+                                        benade.dev
+                                    </li>
+                                </ul>
                             </div>
-                            <ul className={'flex w-full flex-col gap-3'}>
-                                <li className="flex flex-row items-center gap-2 text-sm">
-                                    <MapPinIcon size={25} />
-                                    Pretoria, South Africa
-                                </li>
-                                <li className="flex flex-row items-center gap-2 text-sm">
-                                    <PhoneIcon size={25} />
-                                    +27 82 992 1317
-                                </li>
-                                <li className="flex flex-row items-center gap-2 text-sm">
-                                    <EnvelopeSimpleIcon size={25} />
-                                    eugene@benade.dev
-                                </li>
-                                <li className="flex flex-row items-center gap-2 text-sm">
-                                    <GlobeSimpleIcon size={25} />
-                                    https://benade.dev
-                                </li>
-                            </ul>
                         </div>
 
                         <div className={'flex flex-col gap-8'}>
